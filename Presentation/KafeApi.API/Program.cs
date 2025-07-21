@@ -5,6 +5,7 @@ using KafeApi.Application.Services.Concrete;
 using KafeApi.Persistence.Context;
 using KafeApi.Persistence.Repository;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,8 +31,17 @@ builder.Services.AddAutoMapper(typeof(GeneralMapping));
 
 
 builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
+
 
 var app = builder.Build();
+app.MapScalarApiReference(
+    opt =>
+    {
+        opt.Title = "Kafe Api v1";
+        opt.Theme = ScalarTheme.BluePlanet;
+        opt.DefaultHttpClient = new(ScalarTarget.Http, ScalarClient.Http11);
+    });
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
