@@ -1,7 +1,5 @@
-﻿using KafeApi.Application.Dtos.CategoryDtos;
-using KafeApi.Application.Dtos.MenuItemDtos;
+﻿using KafeApi.Application.Dtos.MenuItemDtos;
 using KafeApi.Application.Services.Abstract;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KafeApi.API.Controllers
@@ -11,7 +9,7 @@ namespace KafeApi.API.Controllers
     public class MenuItemsController : ControllerBase
     {
         private readonly IMenuItemServices _menuItemServices;
-
+        
         public MenuItemsController(IMenuItemServices menuItemServices)
         {
             _menuItemServices = menuItemServices;
