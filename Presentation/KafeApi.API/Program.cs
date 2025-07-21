@@ -10,12 +10,10 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 
-
-// Add services to the container.
-builder.Services.AddDbContext<AppDbContext>(opt =>
+builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    var conf = builder.Configuration.GetConnectionString("DefaultConnection");
-    opt.UseSqlServer(conf);
+    var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+    options.UseSqlServer(connection); // connection boþsa hata verir
 });
 
 builder.Services.AddControllers();

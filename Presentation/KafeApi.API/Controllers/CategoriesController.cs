@@ -9,7 +9,6 @@ namespace KafeApi.API.Controllers;
 public class CategoriesController : ControllerBase
 {
     private readonly ICategoryServices _categoryServices;
-
     public CategoriesController(ICategoryServices categoryServices)
     {
         _categoryServices = categoryServices;
@@ -31,7 +30,7 @@ public class CategoriesController : ControllerBase
     public async Task<IActionResult> AddCategory(CreateCategoryDto dto)
     {
         await _categoryServices.AddCategory(dto);
-        return Ok("Kategori Oluşturuldu.");
+        return Ok("Kategori Oluşturuldu.AddCategory");
     }
     [HttpPut]
     public async Task<IActionResult> UpdateCategory(UpdateCategoryDto dto)
