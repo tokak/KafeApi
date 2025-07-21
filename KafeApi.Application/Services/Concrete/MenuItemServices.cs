@@ -1,4 +1,5 @@
-﻿using KafeApi.Application.Dtos.MenuItemDtos;
+﻿using AutoMapper;
+using KafeApi.Application.Dtos.MenuItemDtos;
 using KafeApi.Application.Interfaces;
 using KafeApi.Application.Services.Abstract;
 using KafeApi.Domain.Entities;
@@ -8,34 +9,44 @@ namespace KafeApi.Application.Services.Concrete;
 public class MenuItemServices : IMenuItemServices
 {
     private readonly IGenericRepository<MenuItem> _menuItemRepository;
+    private readonly IMapper _mapper;
 
-    public MenuItemServices(IGenericRepository<MenuItem> menuItemRepository)
+    public MenuItemServices(IGenericRepository<MenuItem> menuItemRepository, IMapper mapper)
     {
         _menuItemRepository = menuItemRepository;
+        _mapper = mapper;
     }
 
-    public Task AddMenuItem(CreateMenuItemDto dto)
+    public async Task AddMenuItem(CreateMenuItemDto dto)
     {
-        throw new NotImplementedException();
+        var addMenuItem = _mapper.Map<MenuItem>(dto);
+        await _menuItemRepository.AddAsync(addMenuItem);
+
     }
 
-    public Task DeleteMenuItem(int id)
+    public async Task DeleteMenuItem(int id)
     {
-        throw new NotImplementedException();
+        var removeMenuItem = await _menuItemRepository.GetByIdAsync(id);
+        await _menuItemRepository.DeleteAsync(removeMenuItem);
     }
 
-    public Task<List<ResultMenuItemDto>> GetAllMenuItems()
+    public async Task<List<ResultMenuItemDto>> GetAllMenuItems()
     {
-        throw new NotImplementedException();
+        var menuItems = await _menuItemRepository.GetAllAsync();
+        var result = _mapper.Map<List<ResultMenuItemDto>>(menuItems);
+        return result;
     }
 
-    public Task<DetailMenuItemDto> GetByIdMenuItem(int id)
+    public async Task<DetailMenuItemDto> GetByIdMenuItem(int id)
     {
-        throw new NotImplementedException();
+        var menuItem = await _menuItemRepository.GetByIdAsync(id);
+        var result = _mapper.Map<DetailMenuItemDto>(menuItem);
+        return result;
     }
 
-    public Task UpdateMenuItem(UpdateMenuItemDto dto)
+    public async Task UpdateMenuItem(UpdateMenuItemDto dto)
     {
-        throw new NotImplementedException();
+        var menuItem = _mapper.Map<MenuItem>(dto);
+        await _menuItemRepository.UpdateAsync(menuItem);
     }
 }

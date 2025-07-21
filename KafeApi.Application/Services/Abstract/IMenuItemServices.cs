@@ -1,5 +1,4 @@
-﻿using KafeApi.Application.Dtos.CategoryDtos;
-using KafeApi.Application.Dtos.MenuItemDtos;
+﻿using KafeApi.Application.Dtos.MenuItemDtos;
 
 namespace KafeApi.Application.Services.Abstract;
 
