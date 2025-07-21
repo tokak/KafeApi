@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\KafeApi.Domain\KafeApi.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
