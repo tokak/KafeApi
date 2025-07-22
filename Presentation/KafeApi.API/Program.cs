@@ -37,8 +37,10 @@ builder.Services.AddAutoMapper(typeof(GeneralMapping));
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateCategoryDto>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateCategoryDto>();
+
 builder.Services.AddValidatorsFromAssemblyContaining<CreateMenuItemDto>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateMenuItemDto>();
+
 builder.Services.AddValidatorsFromAssemblyContaining<CreateTableDto>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateTableDto>();
 
