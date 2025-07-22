@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using KafeApi.Application.Dtos.CategoryDtos;
 using KafeApi.Application.Dtos.TableDtos;
 
 namespace KafeApi.Application.Validators.Table;
