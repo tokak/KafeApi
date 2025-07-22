@@ -36,14 +36,14 @@ public class MenuItemServices : IMenuItemServices
                 {
                     Success = false,
                     Data = null,
-                    ErrorCodes = ErrorCodes.ValidationError,
+                    ErrorCode = ErrorCodes.ValidationError,
                     Message = string.Join(",", valide.Errors.Select(x => x.ErrorMessage).ToList())
                 };
             }
             var checkCategory = await _categoryRepository.GetByIdAsync(dto.CategoryId);
             if (checkCategory == null)
             {
-                return new ResponseDto<object> { Success = false, Data = null, ErrorCodes = ErrorCodes.NotFound, Message = "Eklemek istediğiniz kategori bulunamadı." };
+                return new ResponseDto<object> { Success = false, Data = null, ErrorCode = ErrorCodes.NotFound, Message = "Eklemek istediğiniz kategori bulunamadı." };
             }
             var addMenuItem = _mapper.Map<MenuItem>(dto);
             await _menuItemRepository.AddAsync(addMenuItem);
@@ -56,7 +56,7 @@ public class MenuItemServices : IMenuItemServices
                 Success = false,
                 Data = null,
                 Message = "Bir hata oluştur.",
-                ErrorCodes = ErrorCodes.Exception
+                ErrorCode = ErrorCodes.Exception
             };
         }
     }
@@ -68,7 +68,7 @@ public class MenuItemServices : IMenuItemServices
             var removeMenuItem = await _menuItemRepository.GetByIdAsync(id);
             if (removeMenuItem == null)
             {
-                return new ResponseDto<object> { Success = false, Data = null, ErrorCodes = ErrorCodes.NotFound, Message = "Kayıt bulunamadı." };
+                return new ResponseDto<object> { Success = false, Data = null, ErrorCode = ErrorCodes.NotFound, Message = "Kayıt bulunamadı." };
             }
             await _menuItemRepository.DeleteAsync(removeMenuItem);
             return new ResponseDto<object> { Success = true, Data = removeMenuItem, Message = "Kayıt silindi." };
@@ -81,7 +81,7 @@ public class MenuItemServices : IMenuItemServices
                 Success = false,
                 Data = null,
                 Message = "Bir hata oluştur.",
-                ErrorCodes = ErrorCodes.Exception
+                ErrorCode = ErrorCodes.Exception
             };
         }
 
@@ -100,7 +100,7 @@ public class MenuItemServices : IMenuItemServices
                 {
                     Success = true,
                     Data = result,
-                    ErrorCodes = ErrorCodes.NotFound,
+                    ErrorCode = ErrorCodes.NotFound,
                     Message = "Listelenecek kayıt bulunamadı."
                 };
             }
@@ -112,7 +112,7 @@ public class MenuItemServices : IMenuItemServices
             {
                 Success = false,
                 Data = null,
-                ErrorCodes = ErrorCodes.Exception,
+                ErrorCode = ErrorCodes.Exception,
                 Message = "Bir hata oluştu."
             };
         }
@@ -127,7 +127,7 @@ public class MenuItemServices : IMenuItemServices
             var categoryfind = await _categoryRepository.GetByIdAsync(menuItem.CategoryId);
             if (menuItem == null || categoryfind == null)
             {
-                return new ResponseDto<DetailMenuItemDto> { Success = false, Data = null, ErrorCodes = ErrorCodes.NotFound, Message = "Kayıt  veya kategori bulunamadı." };
+                return new ResponseDto<DetailMenuItemDto> { Success = false, Data = null, ErrorCode = ErrorCodes.NotFound, Message = "Kayıt  veya kategori bulunamadı." };
             }
 
             var result = _mapper.Map<DetailMenuItemDto>(menuItem);
@@ -139,7 +139,7 @@ public class MenuItemServices : IMenuItemServices
             {
                 Success = false,
                 Data = null,
-                ErrorCodes = ErrorCodes.Exception,
+                ErrorCode = ErrorCodes.Exception,
                 Message = "Bir hata oluştu."
             };
         }
@@ -157,13 +157,13 @@ public class MenuItemServices : IMenuItemServices
                     Success = false,
                     Data = null,
                     Message = string.Join(" , ", validate.Errors.Select(x => x.ErrorMessage).ToList()),
-                    ErrorCodes = ErrorCodes.ValidationError
+                    ErrorCode = ErrorCodes.ValidationError
                 };
             }
             var checkCategory = await _categoryRepository.GetByIdAsync(dto.CategoryId);
             if (checkCategory == null)
             {
-                return new ResponseDto<object> { Success = false, Data = null, ErrorCodes = ErrorCodes.NotFound, Message = "Eklemek istediğiniz kategori bulunamadı." };
+                return new ResponseDto<object> { Success = false, Data = null, ErrorCode = ErrorCodes.NotFound, Message = "Eklemek istediğiniz kategori bulunamadı." };
             }
             var menuItem = _mapper.Map<MenuItem>(dto);
             await _menuItemRepository.UpdateAsync(menuItem);
@@ -177,7 +177,7 @@ public class MenuItemServices : IMenuItemServices
                 Success = false,
                 Data = null,
                 Message = "Bir hata oluştu",
-                ErrorCodes = ErrorCodes.Exception
+                ErrorCode = ErrorCodes.Exception
             };
         }
 

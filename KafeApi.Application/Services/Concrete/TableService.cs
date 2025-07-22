@@ -36,7 +36,7 @@ public class TableService : ITableServices
                 {
                     Success = false,
                     Data = null,
-                    ErrorCodes = ErrorCodes.ValidationError,
+                    ErrorCode = ErrorCodes.ValidationError,
                     Message = string.Join(",", validate.Errors.Select(x => x.ErrorMessage).ToList())
                 };
             }
@@ -48,7 +48,7 @@ public class TableService : ITableServices
                     Success = false,
                     Data = null,
                     Message = "Eklemek istediğiniz masa numarası mevcuttur",
-                    ErrorCodes = ErrorCodes.DublicationError
+                    ErrorCode = ErrorCodes.DublicationError
                 };
             }
             var tableMap = _mapper.Map<Table>(dto);
@@ -57,7 +57,7 @@ public class TableService : ITableServices
         }
         catch (Exception ex)
         {
-            return new ResponseDto<object> { Success = false, Data = null, ErrorCodes = ErrorCodes.Exception, Message = "Bir hata oluştu." };
+            return new ResponseDto<object> { Success = false, Data = null, ErrorCode = ErrorCodes.Exception, Message = "Bir hata oluştu." };
         }
     }
 
@@ -68,7 +68,7 @@ public class TableService : ITableServices
             var findTable = await _tableRepository.GetByIdAsync(id);
             if (findTable == null)
             {
-                return new ResponseDto<object> { Success = false, Data = null, ErrorCodes = ErrorCodes.NotFound, Message = "Kayıt bulunamadı." };
+                return new ResponseDto<object> { Success = false, Data = null, ErrorCode = ErrorCodes.NotFound, Message = "Kayıt bulunamadı." };
             }
             await _tableRepository.DeleteAsync(findTable);
             return new ResponseDto<object> { Success = true, Data = findTable, Message = "Kayıt silindi." };
@@ -76,7 +76,7 @@ public class TableService : ITableServices
         }
         catch (Exception ex)
         {
-            return new ResponseDto<object> { Success = false, Data = null, ErrorCodes = ErrorCodes.Exception, Message = "Bir hata oluştu." };
+            return new ResponseDto<object> { Success = false, Data = null, ErrorCode = ErrorCodes.Exception, Message = "Bir hata oluştu." };
         }
     }
 
@@ -87,7 +87,7 @@ public class TableService : ITableServices
             var tables = await _tableRepository.GetAllAsync();
             if (tables.Count() == 0)
             {
-                return new ResponseDto<List<ResultTableDto>>() { Success = true, Data = null, ErrorCodes = ErrorCodes.NotFound, Message = "Masalar bulunamadı." };
+                return new ResponseDto<List<ResultTableDto>>() { Success = true, Data = null, ErrorCode = ErrorCodes.NotFound, Message = "Masalar bulunamadı." };
             }
             var result = _mapper.Map<List<ResultTableDto>>(tables);
             return new ResponseDto<List<ResultTableDto>> { Success = true, Data = result };
@@ -98,7 +98,7 @@ public class TableService : ITableServices
             {
                 Success = false,
                 Data = null,
-                ErrorCodes = ErrorCodes.Exception,
+                ErrorCode = ErrorCodes.Exception,
                 Message = "Bir hata oluştu."
             };
         }
@@ -111,7 +111,7 @@ public class TableService : ITableServices
             var getTableById = await _tableRepository.GetByIdAsync(id);
             if (getTableById == null)
             {
-                return new ResponseDto<DetailTableDto> { Success = false, Data = null, ErrorCodes = ErrorCodes.NotFound, Message = "Kayıt bulunamadı." };
+                return new ResponseDto<DetailTableDto> { Success = false, Data = null, ErrorCode = ErrorCodes.NotFound, Message = "Kayıt bulunamadı." };
             }
             var result = _mapper.Map<DetailTableDto>(getTableById);
             return new ResponseDto<DetailTableDto> { Success = true, Data = result, Message = "İşlem başarılı" };
@@ -122,7 +122,7 @@ public class TableService : ITableServices
             {
                 Success = false,
                 Data = null,
-                ErrorCodes = ErrorCodes.Exception,
+                ErrorCode = ErrorCodes.Exception,
                 Message = "Bir hata oluştu."
             };
         }
@@ -140,7 +140,7 @@ public class TableService : ITableServices
                 {
                     Success = false,
                     Data = null,
-                    ErrorCodes = ErrorCodes.NotFound,
+                    ErrorCode = ErrorCodes.NotFound,
                     Message = "Kayıt bulunamadı."
                 };
             }
@@ -153,7 +153,7 @@ public class TableService : ITableServices
             {
                 Success = false,
                 Data = null,
-                ErrorCodes = ErrorCodes.Exception,
+                ErrorCode = ErrorCodes.Exception,
                 Message = "Bir hata oluştu."
             };
         }
@@ -166,12 +166,12 @@ public class TableService : ITableServices
             var validate = await _updateTableValidator.ValidateAsync(dto);
             if (!validate.IsValid)
             {
-                return new ResponseDto<object> { Success = false, Data = null, ErrorCodes = ErrorCodes.ValidationError, Message = string.Join(",", validate.Errors.Select(x => x.ErrorMessage).ToList()) };
+                return new ResponseDto<object> { Success = false, Data = null, ErrorCode = ErrorCodes.ValidationError, Message = string.Join(",", validate.Errors.Select(x => x.ErrorMessage).ToList()) };
             }
             var findTable = await _tableRepository.GetByIdAsync(dto.Id);
             if (findTable == null)
             {
-                return new ResponseDto<object> { Success = false, Data = null, ErrorCodes = ErrorCodes.NotFound, Message = "Kayıt bulunamadı." };
+                return new ResponseDto<object> { Success = false, Data = null, ErrorCode = ErrorCodes.NotFound, Message = "Kayıt bulunamadı." };
             }
 
             var table = _mapper.Map(dto, findTable);
@@ -185,7 +185,7 @@ public class TableService : ITableServices
             {
                 Success = false,
                 Data = null,
-                ErrorCodes = ErrorCodes.Exception,
+                ErrorCode = ErrorCodes.Exception,
                 Message = "Bir hata oluştu"
             };
         }
@@ -198,7 +198,7 @@ public class TableService : ITableServices
             var activeTables = await _tableRepository.GetAllAsync(x => x.IsActive);
             if (activeTables.Count() == 0)
             {
-                return new ResponseDto<List<ResultTableDto>> { Success = true, Data = null, ErrorCodes = ErrorCodes.NotFound, Message = "Aktif kayıt bulunamadı" };
+                return new ResponseDto<List<ResultTableDto>> { Success = true, Data = null, ErrorCode = ErrorCodes.NotFound, Message = "Aktif kayıt bulunamadı" };
             }
             var mapTables = _mapper.Map<List<ResultTableDto>>(activeTables);
             return new ResponseDto<List<ResultTableDto>> { Success = true, Data = mapTables, Message = "işlem başarılı" };
@@ -209,7 +209,7 @@ public class TableService : ITableServices
             {
                 Success = false,
                 Data = null,
-                ErrorCodes = ErrorCodes.Exception,
+                ErrorCode = ErrorCodes.Exception,
                 Message = "Bir hata oluştu"
             };
         }
@@ -222,7 +222,7 @@ public class TableService : ITableServices
             var rp = await _tableRepository.GetByIdAsync(id);
             if (rp == null)
             {
-                return new ResponseDto<object> { Success = false, Data = null, ErrorCodes = ErrorCodes.NotFound, Message = "Kayıt bulunamadı." };
+                return new ResponseDto<object> { Success = false, Data = null, ErrorCode = ErrorCodes.NotFound, Message = "Kayıt bulunamadı." };
             }
             rp.IsActive = !rp.IsActive;
             await _tableRepository.UpdateAsync(rp);
@@ -234,7 +234,7 @@ public class TableService : ITableServices
             {
                 Success = false,
                 Data = null,
-                ErrorCodes = ErrorCodes.Exception,
+                ErrorCode = ErrorCodes.Exception,
                 Message = "Bir hata oluştu"
             };
         }
@@ -247,7 +247,7 @@ public class TableService : ITableServices
             var rp = await _tableRepository2.GetByTableNumberAsync(tableNumber);
             if (rp == null)
             {
-                return new ResponseDto<object> { Success = false, Data = null, ErrorCodes = ErrorCodes.NotFound, Message = "Kayıt bulunamadı." };
+                return new ResponseDto<object> { Success = false, Data = null, ErrorCode = ErrorCodes.NotFound, Message = "Kayıt bulunamadı." };
             }
             rp.IsActive = !rp.IsActive;
             await _tableRepository.UpdateAsync(rp);
@@ -259,7 +259,7 @@ public class TableService : ITableServices
             {
                 Success = false,
                 Data = null,
-                ErrorCodes = ErrorCodes.Exception,
+                ErrorCode = ErrorCodes.Exception,
                 Message = "Bir hata oluştu"
             };
         }
