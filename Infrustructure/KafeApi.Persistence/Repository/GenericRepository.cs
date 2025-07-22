@@ -1,6 +1,7 @@
 ﻿using KafeApi.Application.Interfaces;
 using KafeApi.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace KafeApi.Persistence.Repository;
 
@@ -25,10 +26,14 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         await _context.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync()
+    public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter = null)
     {
-        var result = await _context.Set<T>().ToListAsync();
-        return result;
+        if (filter != null)
+        {
+            return await _context.Set<T>().Where(filter).ToListAsync();
+        }
+
+        return await _context.Set<T>().ToListAsync();
     }
 
     public async Task<T> GetByIdAsync(int id)

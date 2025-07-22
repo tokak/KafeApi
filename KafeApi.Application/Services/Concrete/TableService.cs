@@ -40,7 +40,7 @@ public class TableService : ITableServices
                     Message = string.Join(",", validate.Errors.Select(x => x.ErrorMessage).ToList())
                 };
             }
-            var checkTable = await _tableRepository.GetByIdAsync(dto.TableNumber);
+            var checkTable = await _tableRepository2.GetByTableNumberAsync(dto.TableNumber);
             if (checkTable != null)
             {
                 return new ResponseDto<object>
@@ -178,6 +178,80 @@ public class TableService : ITableServices
             await _tableRepository.UpdateAsync(table);
             return new ResponseDto<object> { Success = true, Data = table, Message = "İşlem başarılı." };
 
+        }
+        catch (Exception ex)
+        {
+            return new ResponseDto<object>
+            {
+                Success = false,
+                Data = null,
+                ErrorCodes = ErrorCodes.Exception,
+                Message = "Bir hata oluştu"
+            };
+        }
+    }
+
+    public async Task<ResponseDto<List<ResultTableDto>>> GetAllActiveTables()
+    {
+        try
+        {
+            var activeTables = await _tableRepository.GetAllAsync(x => x.IsActive);
+            if (activeTables.Count() == 0)
+            {
+                return new ResponseDto<List<ResultTableDto>> { Success = true, Data = null, ErrorCodes = ErrorCodes.NotFound, Message = "Aktif kayıt bulunamadı" };
+            }
+            var mapTables = _mapper.Map<List<ResultTableDto>>(activeTables);
+            return new ResponseDto<List<ResultTableDto>> { Success = true, Data = mapTables, Message = "işlem başarılı" };
+        }
+        catch (Exception ex)
+        {
+            return new ResponseDto<List<ResultTableDto>>
+            {
+                Success = false,
+                Data = null,
+                ErrorCodes = ErrorCodes.Exception,
+                Message = "Bir hata oluştu"
+            };
+        }
+    }
+
+    public async Task<ResponseDto<object>> UpdateTableStatusById(int id)
+    {
+        try
+        {
+            var rp = await _tableRepository.GetByIdAsync(id);
+            if (rp == null)
+            {
+                return new ResponseDto<object> { Success = false, Data = null, ErrorCodes = ErrorCodes.NotFound, Message = "Kayıt bulunamadı." };
+            }
+            rp.IsActive = !rp.IsActive;
+            await _tableRepository.UpdateAsync(rp);
+            return new ResponseDto<object> { Success = true, Data = rp, Message = "İşlem başarılı." };
+        }
+        catch (Exception ex)
+        {
+            return new ResponseDto<object>
+            {
+                Success = false,
+                Data = null,
+                ErrorCodes = ErrorCodes.Exception,
+                Message = "Bir hata oluştu"
+            };
+        }
+    }
+
+    public async Task<ResponseDto<object>> UpdateTablesStatusByTableNumber(int tableNumber)
+    {
+        try
+        {
+            var rp = await _tableRepository2.GetByTableNumberAsync(tableNumber);
+            if (rp == null)
+            {
+                return new ResponseDto<object> { Success = false, Data = null, ErrorCodes = ErrorCodes.NotFound, Message = "Kayıt bulunamadı." };
+            }
+            rp.IsActive = !rp.IsActive;
+            await _tableRepository.UpdateAsync(rp);
+            return new ResponseDto<object> { Success = true, Data = rp, Message = "İşlem başarılı." };
         }
         catch (Exception ex)
         {
