@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using KafeApi.Application.Dtos.CategoryDtos;
 using KafeApi.Application.Dtos.ResponseDtos;
 using KafeApi.Application.Interfaces;
@@ -11,17 +12,31 @@ public class CategoryServices : ICategoryServices
 {
     private readonly IGenericRepository<Category> _categoryRepository;
     private readonly IMapper _mapper;
-
-    public CategoryServices(IGenericRepository<Category> categoryRepository, IMapper mapper)
+    private readonly IValidator<CreateCategoryDto> _createCategoryValidator;
+    private readonly IValidator<UpdateCategoryDto> _updateCategoryDto;
+    public CategoryServices(IGenericRepository<Category> categoryRepository, IMapper mapper, IValidator<CreateCategoryDto> createCategoryValidator, IValidator<UpdateCategoryDto> updateCategoryDto)
     {
         _categoryRepository = categoryRepository;
         _mapper = mapper;
+        _createCategoryValidator = createCategoryValidator;
+        _updateCategoryDto = updateCategoryDto;
     }
 
     public async Task<ResponseDto<object>> AddCategory(CreateCategoryDto dto)
     {
         try
         {
+            var validate = await _createCategoryValidator.ValidateAsync(dto);
+            if (!validate.IsValid)
+            {
+                return new ResponseDto<object>
+                {
+                    Success = false,
+                    Data = null,
+                    Message = string.Join(" | ", validate.Errors.Select(x => x.ErrorMessage).ToList()),
+                    ErrorCodes = ErrorCodes.ValidationError,
+                };
+            }
             var category = _mapper.Map<Category>(dto);
             await _categoryRepository.AddAsync(category);
             return new ResponseDto<object> { Success = true, Data = category, Message = "Kategori Eklenildi." };
@@ -105,14 +120,26 @@ public class CategoryServices : ICategoryServices
 
     public async Task<ResponseDto<object>> UpdateCategory(UpdateCategoryDto dto)
     {
+
         try
         {
+            var validate = await _updateCategoryDto.ValidateAsync(dto);
+            if (!validate.IsValid)
+            {
+                return new ResponseDto<object>
+                {
+                    Success = false,
+                    Message = string.Join(" , ", validate.Errors.Select(x => x.ErrorMessage).ToList()),
+                    Data = null,
+                    ErrorCodes = ErrorCodes.ValidationError
+                };
+            }
             var categoryfind = await _categoryRepository.GetByIdAsync(dto.Id);
             if (categoryfind == null)
             {
                 return new ResponseDto<object> { Success = false, Message = "Kayıt bulunamadı.", Data = null, ErrorCodes = ErrorCodes.NotFound };
             }
-            var category = _mapper.Map(dto,categoryfind);
+            var category = _mapper.Map(dto, categoryfind);
             await _categoryRepository.UpdateAsync(category);
             return new ResponseDto<object> { Success = true, Message = "Kayıt güncellendi.", Data = category };
         }

@@ -1,3 +1,5 @@
+using FluentValidation;
+using KafeApi.Application.Dtos.CategoryDtos;
 using KafeApi.Application.Interfaces;
 using KafeApi.Application.Mapping;
 using KafeApi.Application.Services.Abstract;
@@ -25,6 +27,7 @@ builder.Services.AddScoped<ICategoryServices, CategoryServices>();
 
 builder.Services.AddAutoMapper(typeof(GeneralMapping));
 
+builder.Services.AddValidatorsFromAssemblyContaining<CreateCategoryDto>();
 
 
 

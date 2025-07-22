@@ -49,6 +49,10 @@ public class CategoriesController : ControllerBase
         var result = await _categoryServices.AddCategory(dto);
         if (!result.Success)
         {
+            if (result.ErrorCodes == ErrorCodes.ValidationError)
+            {
+                return Ok(result);
+            }
             return BadRequest(result);
         }
         return Ok(result);
@@ -59,6 +63,10 @@ public class CategoriesController : ControllerBase
         var result = await _categoryServices.UpdateCategory(dto);
         if (!result.Success)
         {
+            if (result.ErrorCodes is ErrorCodes.NotFound or ErrorCodes.ValidationError)
+            {
+                return Ok(result);
+            }
             return BadRequest(result);
         }
         return Ok(result);
