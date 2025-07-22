@@ -1,6 +1,7 @@
 using FluentValidation;
 using KafeApi.Application.Dtos.CategoryDtos;
 using KafeApi.Application.Dtos.MenuItemDtos;
+using KafeApi.Application.Dtos.OrderDtos;
 using KafeApi.Application.Dtos.OrderItemDtos;
 using KafeApi.Application.Dtos.TableDtos;
 using KafeApi.Application.Interfaces;
@@ -29,6 +30,7 @@ builder.Services.AddScoped<IMenuItemServices, MenuItemServices>();
 builder.Services.AddScoped<ICategoryServices, CategoryServices>();
 builder.Services.AddScoped<ITableServices, TableService>();
 builder.Services.AddScoped<IOrderItemServices, OrderItemServices>();
+builder.Services.AddScoped<IOrderServices, OrderServices>();
 
 
 builder.Services.AddAutoMapper(typeof(GeneralMapping));
@@ -42,6 +44,10 @@ builder.Services.AddValidatorsFromAssemblyContaining<UpdateTableDto>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateOrderItemDto>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateOrderItemDto>();
+
+
+builder.Services.AddValidatorsFromAssemblyContaining<CreateOrderDto>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateOrderDto>();
 
 
 
