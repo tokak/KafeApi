@@ -5,6 +5,7 @@ public static class ErrorCodes
     public const string NotFound = "NotFound";  //"İstenen veri bulunamadı.";
     public const string Exception = "Exception"; //"İstenen veri bulunamadı.";
     public const string ValidationError = "ValidationError";//"Geçersiz veya eksik veri gönderildi.";
+    public const string DublicationError = "DublicationError";//"Aynı veriden bulunmaktadır.";
     public const string Unauthorized = "Unauthorized";//"Bu işlemi yapmaya yetkiniz yok.";
     public const string Forbidden = "Forbidden";//Bu kaynağa erişiminiz yasak.";
     public const string InternalServerError = "InternalServerError";//"Sunucuda beklenmeyen bir hata oluştu.";

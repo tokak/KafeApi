@@ -8,8 +8,7 @@ public interface ITableServices
 {
     Task<ResponseDto<List<ResultTableDto>>> GetAllTables();
     Task<ResponseDto<DetailTableDto>> GetByIdTable(int id);
-    Task<ResponseDto<DetailTableDto>> GetByIdTableCodeTable(string code);
-    Task<ResponseDto<DetailTableDto>> GetByIdTableNumber(int tableNumber);
+    Task<ResponseDto<DetailTableDto>> GetByTableNumber(int tableNumber);
     Task<ResponseDto<object>> AddTable(CreateTableDto dto);
     Task<ResponseDto<object>> UpdateTable(UpdateTableDto dto);
     Task<ResponseDto<object>> DeleteTable(int id);

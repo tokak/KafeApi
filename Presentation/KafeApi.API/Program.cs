@@ -1,6 +1,7 @@
 using FluentValidation;
 using KafeApi.Application.Dtos.CategoryDtos;
 using KafeApi.Application.Dtos.MenuItemDtos;
+using KafeApi.Application.Dtos.TableDtos;
 using KafeApi.Application.Interfaces;
 using KafeApi.Application.Mapping;
 using KafeApi.Application.Services.Abstract;
@@ -22,6 +23,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddControllers();
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<ITableRepository, TableRepository>();
 builder.Services.AddScoped<IMenuItemServices, MenuItemServices>();
 builder.Services.AddScoped<ICategoryServices, CategoryServices>();
 
@@ -32,6 +34,8 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreateCategoryDto>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateCategoryDto>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateMenuItemDto>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateMenuItemDto>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateTableDto>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateTableDto>();
 
 
 
