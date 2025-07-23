@@ -4,6 +4,7 @@ using KafeApi.Application.Dtos.MenuItemDtos;
 using KafeApi.Application.Dtos.OrderDtos;
 using KafeApi.Application.Dtos.OrderItemDtos;
 using KafeApi.Application.Dtos.TableDtos;
+using KafeApi.Application.Helpers;
 using KafeApi.Application.Interfaces;
 using KafeApi.Application.Mapping;
 using KafeApi.Application.Services.Abstract;
@@ -28,11 +29,15 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 builder.Services.AddScoped<ITableRepository, TableRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IMenuItemRepository, MenuItemRepository>();
+
 builder.Services.AddScoped<IMenuItemServices, MenuItemServices>();
 builder.Services.AddScoped<ICategoryServices, CategoryServices>();
 builder.Services.AddScoped<ITableServices, TableService>();
 builder.Services.AddScoped<IOrderItemServices, OrderItemServices>();
 builder.Services.AddScoped<IOrderServices, OrderServices>();
+builder.Services.AddScoped<IAuthServices, AuthServices>();
+
+builder.Services.AddScoped<TokenHelpers>();
 
 
 builder.Services.AddAutoMapper(typeof(GeneralMapping));

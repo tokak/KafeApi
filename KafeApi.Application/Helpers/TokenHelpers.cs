@@ -1,4 +1,5 @@
 ﻿
+using KafeApi.Application.Dtos.AuthDtos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -18,7 +19,7 @@ public class TokenHelpers
     }
 
     // Bu metod, verilen e-posta bilgisine göre bir JWT token üretir
-    public string GenerateToken(string email)
+    public  string GenerateToken(TokenDto dto)
     {
         // Token'ı imzalamak için kullanılan anahtar (appsettings.json dosyasındaki Jwt:Key değerini alıyoruz)
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -29,10 +30,11 @@ public class TokenHelpers
         // Token içinde yer alacak kullanıcı bilgileri (claim'ler) tanımlanıyor
         var claims = new List<Claim> {
             // Kullanıcının e-posta adresi
-            new Claim("email", email),
+            new Claim("_e", dto.Email),
 
             // Kullanıcının rolü (örnek olarak "admin" verdik, sabit yazılmış)
-            new Claim("role", "admin"),
+            new Claim("_u",dto.Id),
+            new Claim("_r",dto.Role),
 
             // Token'a benzersiz bir ID atanıyor (güvenlik amacıyla)
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
@@ -42,7 +44,7 @@ public class TokenHelpers
         var token = new JwtSecurityToken
         (
             issuer: _configuration["Jwt:Issuer"],           // Token'ı kim oluşturdu? (örn: bizim API)
-            audience: _configuration["Jwt:Auidience"],      // Token'ı kimler kullanabilir?
+            audience: _configuration["Jwt:Audience"],      // Token'ı kimler kullanabilir?
             claims: claims,                                 // Token içine eklenen bilgiler (e-mail, rol, vb.)
             expires: DateTime.Now.AddMinutes(30),           // Token ne kadar süre geçerli? (30 dakika)
             signingCredentials: creadentials                // Hangi anahtar ve algoritma ile imzalandı?

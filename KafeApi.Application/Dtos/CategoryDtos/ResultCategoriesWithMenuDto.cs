@@ -6,5 +6,5 @@ public class ResultCategoriesWithMenuDto
 {
     public int Id { get; set; }
     public string Name { get; set; }
-    public List<CategoriesMenuItem> MenuItems { get; set; }
+    public List<CategoriesMenuItemDto> MenuItems { get; set; }
 }

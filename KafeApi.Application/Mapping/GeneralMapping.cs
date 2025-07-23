@@ -22,7 +22,7 @@ public class GeneralMapping : Profile
         CreateMap<MenuItem, ResultMenuItemDto>().ReverseMap();
         CreateMap<MenuItem, UpdateMenuItemDto>().ReverseMap();
         CreateMap<MenuItem, DetailMenuItemDto>().ReverseMap();
-        CreateMap<MenuItem, CategoriesMenuItem>().ReverseMap();
+        CreateMap<MenuItem, CategoriesMenuItemDto>().ReverseMap();
 
         CreateMap<Table, CreateTableDto>().ReverseMap();
         CreateMap<Table, ResultTableDto>().ReverseMap();
