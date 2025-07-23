@@ -11,8 +11,11 @@ using KafeApi.Application.Services.Abstract;
 using KafeApi.Application.Services.Concrete;
 using KafeApi.Persistence.Context;
 using KafeApi.Persistence.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,9 +64,30 @@ builder.Services.AddValidatorsFromAssemblyContaining<UpdateOrderDto>();
 
 
 builder.Services.AddOpenApi();
+
+//jwt yapýlandýrýlmasý
+builder.Services.AddAuthentication(opt =>
+{
+    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(o =>
+{
+    o.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true, // Token'ý oluþturan Issuer kontrol edilsin
+        ValidateAudience = true, // Token'ýn hedef kitlesi kontrol edilsin
+        ValidateLifetime = true, // Token süresi dolmuþ mu kontrol edilsin
+        ValidateIssuerSigningKey = true, // Token imzasý kontrol edilsin
+
+        ValidIssuer = builder.Configuration["Jwt:Issuer"], // appsettings.json içindeki "Issuer" deðeri
+        ValidAudience = builder.Configuration["Jwt:Audience"], // appsettings.json içindeki "Audience" deðeri
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+
+        ClockSkew = TimeSpan.Zero // Token süresi dolma toleransý (varsayýlan 5 dakika, burada sýfýrlandý),
+    };
+});
 builder.Services.AddEndpointsApiExplorer();
-
-
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 app.MapScalarApiReference(
     opt =>
@@ -80,7 +104,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

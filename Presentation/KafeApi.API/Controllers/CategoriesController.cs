@@ -1,6 +1,7 @@
 ﻿using KafeApi.Application.Dtos.CategoryDtos;
 using KafeApi.Application.Dtos.ResponseDtos;
 using KafeApi.Application.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KafeApi.API.Controllers;
@@ -35,7 +36,7 @@ public class CategoriesController : BaseController
         var result = await _categoryServices.GetByIdCategory(id);
         return CreateResponse(result); ;
     }
-
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> AddCategory(CreateCategoryDto dto)
     {
