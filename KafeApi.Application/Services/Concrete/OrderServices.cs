@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using KafeApi.Application.Dtos.OrderDtos;
-using KafeApi.Application.Dtos.OrderItemDtos;
 using KafeApi.Application.Dtos.ResponseDtos;
 using KafeApi.Application.Interfaces;
 using KafeApi.Application.Services.Abstract;
-using KafeApi.Application.Validators.OrderItem;
 using KafeApi.Domain.Entities;
 
 namespace KafeApi.Application.Services.Concrete;
@@ -15,12 +13,13 @@ public class OrderServices : IOrderServices
     private readonly IGenericRepository<Order> _orderRepository;
     private readonly IGenericRepository<OrderItem> _orderItemRepository;
     private readonly IGenericRepository<MenuItem> _menuItemRepository;
+    private readonly IGenericRepository<Table> _tableRepository;
     private readonly IMapper _mapper;
     private readonly IValidator<CreateOrderDto> _createOrderValidator;
     private readonly IValidator<UpdateOrderDto> _updateOrderValidator;
     private readonly IOrderRepository _orderRepository2;
 
-    public OrderServices(IGenericRepository<Order> orderRepository, IMapper mapper, IValidator<CreateOrderDto> createOrderValidator, IValidator<UpdateOrderDto> updateOrderValidator, IGenericRepository<OrderItem> orderItemRepository, IGenericRepository<MenuItem> menuItemRepository, IOrderRepository orderRepository2)
+    public OrderServices(IGenericRepository<Order> orderRepository, IMapper mapper, IValidator<CreateOrderDto> createOrderValidator, IValidator<UpdateOrderDto> updateOrderValidator, IGenericRepository<OrderItem> orderItemRepository, IGenericRepository<MenuItem> menuItemRepository, IOrderRepository orderRepository2, IGenericRepository<Table> tableRepository)
     {
         _orderRepository = orderRepository;
         _mapper = mapper;
@@ -29,6 +28,7 @@ public class OrderServices : IOrderServices
         _orderItemRepository = orderItemRepository;
         _menuItemRepository = menuItemRepository;
         _orderRepository2 = orderRepository2;
+        _tableRepository = tableRepository;
     }
 
     public async Task<ResponseDto<object>> AddOrder(CreateOrderDto dto)
@@ -58,6 +58,10 @@ public class OrderServices : IOrderServices
             }
             orderItem.TotalPrice = totalPrice;
             await _orderRepository.AddAsync(orderItem);
+            var table = await _tableRepository.GetByIdAsync(dto.TableId);
+            table.IsActive = false;
+            await _tableRepository.UpdateAsync(table);
+
             return new ResponseDto<object> { Success = true, Data = orderItem, Message = "Sipariş oluşturuldu." };
         }
         catch (Exception)
@@ -252,6 +256,28 @@ public class OrderServices : IOrderServices
             orderFind.Status = OrderStatus.IptalEdildi;
             await _orderRepository.UpdateAsync(orderFind);
             return new ResponseDto<object> { Success = true, Message = "Sipariş durumu iptal olarak güncellendi.", Data = orderFind };
+        }
+        catch (Exception ex)
+        {
+            return new ResponseDto<object> { Success = false, Message = "Bir hata oluştu.", Data = null, ErrorCode = ErrorCodes.Exception };
+        }
+    }
+
+    public async Task<ResponseDto<object>> UpdateOrderStatusIptalOdendi(int orderId)
+    {
+        try
+        {
+
+            var orderFind = await _orderRepository.GetByIdAsync(orderId);
+            if (orderFind == null)
+            {
+                return new ResponseDto<object> { Success = false, Message = "Sipariş bulunamadı.", Data = null, ErrorCode = ErrorCodes.NotFound };
+            }
+            orderFind.Status = OrderStatus.Odendi;
+            await _orderRepository.UpdateAsync(orderFind);
+            var table = await _tableRepository.GetByIdAsync(orderFind.TableId);
+            table.IsActive = true;
+            return new ResponseDto<object> { Success = true, Message = "Sipariş durumu ödendi.", Data = orderFind };
         }
         catch (Exception ex)
         {

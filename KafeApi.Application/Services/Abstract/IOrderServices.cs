@@ -15,6 +15,7 @@ public interface IOrderServices
     Task<ResponseDto<object>> UpdateOrderStatusHazir(int orderId);
     Task<ResponseDto<object>> UpdateOrderStatusIptalEdildi(int orderId);
     Task<ResponseDto<object>> UpdateOrderStatusTeslimEdildi(int orderId);
+    Task<ResponseDto<object>> UpdateOrderStatusIptalOdendi(int orderId);
     Task<ResponseDto<object>> AddOrderItemByOrderId(AddOrderItemByOrderDto dto);
 
 }

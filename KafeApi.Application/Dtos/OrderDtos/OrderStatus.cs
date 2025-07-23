@@ -6,4 +6,5 @@ public static class OrderStatus
     public const string Hazir = "Hazır";
     public const string TeslimEdildi = "Teslim_Edildi.";
     public const string IptalEdildi = "Iptal_Edildi.";
+    public const string Odendi = "Ödendi.";
 }

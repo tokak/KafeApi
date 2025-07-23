@@ -16,11 +16,13 @@ public class GeneralMapping : Profile
         CreateMap<Category, ResultCategoryDto>().ReverseMap();
         CreateMap<Category, UpdateCategoryDto>().ReverseMap();
         CreateMap<Category, DetailCategoryDto>().ReverseMap();
+        CreateMap<Category, ResultCategoriesWithMenuDto>().ReverseMap();
 
         CreateMap<MenuItem, CreateMenuItemDto>().ReverseMap();
         CreateMap<MenuItem, ResultMenuItemDto>().ReverseMap();
         CreateMap<MenuItem, UpdateMenuItemDto>().ReverseMap();
         CreateMap<MenuItem, DetailMenuItemDto>().ReverseMap();
+        CreateMap<MenuItem, CategoriesMenuItem>().ReverseMap();
 
         CreateMap<Table, CreateTableDto>().ReverseMap();
         CreateMap<Table, ResultTableDto>().ReverseMap();

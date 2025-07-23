@@ -54,4 +54,10 @@ public class CategoriesController : BaseController
         var result = await _categoryServices.DeleteCategory(id);
         return CreateResponse(result);
     }
+    [HttpGet("getallcategorieswithmenuitems")]
+    public async Task<IActionResult> GetAllCategoriesWithMenuItems()
+    {
+        var result = await _categoryServices.GetCategoriesWithMenuItem();
+        return CreateResponse(result);
+    }
 }
