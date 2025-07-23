@@ -10,8 +10,10 @@ using KafeApi.Application.Mapping;
 using KafeApi.Application.Services.Abstract;
 using KafeApi.Application.Services.Concrete;
 using KafeApi.Persistence.Context;
+using KafeApi.Persistence.Context.Identity;
 using KafeApi.Persistence.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
@@ -26,12 +28,30 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connection); // connection boþsa hata verir
 });
 
+builder.Services.AddDbContext<AppIdentityDbContext>(options =>
+{
+    var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+    options.UseSqlServer(connection); // connection boþsa hata verir
+});
+
+builder.Services.AddIdentity<AppIdentityUser, AppIdentityRole>(opt =>
+{
+    opt.User.RequireUniqueEmail = true;
+    opt.Password.RequireDigit = false;
+    opt.Password.RequiredLength = 6;
+    opt.Password.RequireLowercase = false;
+    opt.Password.RequireUppercase = false;
+    opt.Password.RequireUppercase = false;
+}).AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
+
+
 builder.Services.AddControllers();
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<ITableRepository, TableRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IMenuItemRepository, MenuItemRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<IMenuItemServices, MenuItemServices>();
 builder.Services.AddScoped<ICategoryServices, CategoryServices>();
@@ -39,6 +59,7 @@ builder.Services.AddScoped<ITableServices, TableService>();
 builder.Services.AddScoped<IOrderItemServices, OrderItemServices>();
 builder.Services.AddScoped<IOrderServices, OrderServices>();
 builder.Services.AddScoped<IAuthServices, AuthServices>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<TokenHelpers>();
 
