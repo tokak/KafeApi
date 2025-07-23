@@ -1,5 +1,4 @@
 ﻿using KafeApi.Application.Dtos.MenuItemDtos;
-using KafeApi.Application.Dtos.ResponseDtos;
 using KafeApi.Application.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
