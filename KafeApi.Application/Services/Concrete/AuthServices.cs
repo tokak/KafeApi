@@ -33,7 +33,7 @@ public class AuthServices : IAuthServices
                     {
                         Email = dto.Email,
                         Id = userCheck.Id,
-                        Role = "Admin"
+                        Role = userCheck.Role
                     };
                     string token = _tokenHelpers.GenerateToken(tokendto);
                     return new ResponseDto<object> { Success = true, Data = token, Message = "işlem başarılı" };

@@ -38,7 +38,11 @@ public class UserRepository : IUserRepository
     {
         var user = await _userManager.FindByEmailAsync(email);
         if (user != null)
-            return new UserDto() { Id = user.Id, Email = user.Email };
+        {
+            var userRole = await _userManager.GetRolesAsync(user);
+            return new UserDto() { Id = user.Id, Email = user.Email, Role = userRole.FirstOrDefault() };
+        }
+
         return new UserDto();
     }
 
@@ -57,7 +61,7 @@ public class UserRepository : IUserRepository
         if (roleExist)
             return false;
 
-        var result = await _roleManager.CreateAsync(new AppIdentityRole { Name = roleName});
+        var result = await _roleManager.CreateAsync(new AppIdentityRole { Name = roleName });
         if (result.Succeeded)
             return true;
 
