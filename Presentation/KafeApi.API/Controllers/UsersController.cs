@@ -21,5 +21,17 @@ namespace KafeApi.API.Controllers
             var result = await _userService.Register(dto);
             return CreateResponse(result);
         }
+        [HttpPost("createrole")]
+        public async Task<IActionResult> CreateRole(string roleName)
+        {
+            var result = await _userService.CreateRole(roleName);
+            return CreateResponse(result);
+        }
+        [HttpPost("addroletouser")]
+        public async Task<IActionResult> AddRoleToUser(string email,string roleName)
+        {
+            var result = await _userService.AddToRole(email,roleName);
+            return CreateResponse(result);
+        }
     }
 }

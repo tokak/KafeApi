@@ -9,9 +9,9 @@ public class UserRepository : IUserRepository
 {
     private readonly UserManager<AppIdentityUser> _userManager;
     private readonly SignInManager<AppIdentityUser> _signInManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly RoleManager<AppIdentityRole> _roleManager;
 
-    public UserRepository(UserManager<AppIdentityUser> userManager, SignInManager<AppIdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
+    public UserRepository(UserManager<AppIdentityUser> userManager, SignInManager<AppIdentityUser> signInManager, RoleManager<AppIdentityRole> roleManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -57,7 +57,7 @@ public class UserRepository : IUserRepository
         if (roleExist)
             return false;
 
-        var result = await _roleManager.CreateAsync(new IdentityRole(roleName));
+        var result = await _roleManager.CreateAsync(new AppIdentityRole { Name = roleName});
         if (result.Succeeded)
             return true;
 
