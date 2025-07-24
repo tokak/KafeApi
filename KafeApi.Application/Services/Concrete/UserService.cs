@@ -17,6 +17,43 @@ public class UserService : IUserService
         _registerValidator = registerValidator;
     }
 
+    public async Task<ResponseDto<object>> AddToRole(string email, string roleName)
+    {
+        try
+        {
+            var result = await _userRepository.AddRoleToUserAsync(email,roleName);
+            if (result)
+            {
+                return new ResponseDto<object> { Success = true, Data = result, Message = "Rol ataması yapıldı." };
+            }
+
+            return new ResponseDto<object> { Success = false, ErrorCode = ErrorCodes.BadRequest, Data = null, Message = "Rol ataması yapılırken bir hata oluştu." };
+        }
+        catch (Exception ex)
+        {
+            return new ResponseDto<object> { Success = false, Data = null, Message = ex.Message, ErrorCode = ErrorCodes.Exception };
+        }
+    }
+
+    public async Task<ResponseDto<object>> CreateRole(string roleName)
+    {
+
+        try
+        {
+            var result = await _userRepository.CreateRoleAsync(roleName);
+            if (result)
+            {
+                return new ResponseDto<object> { Success = true, Data = result, Message = "Rol oluşturuldu." };
+            }
+           
+            return new ResponseDto<object> { Success = false,ErrorCode = ErrorCodes.BadRequest, Data = null, Message = "Rol oluşturulamadı." };
+        }
+        catch (Exception ex)
+        {
+            return new ResponseDto<object> { Success = false, Data = null, Message = ex.Message, ErrorCode = ErrorCodes.Exception };
+        }
+    }
+
     public async Task<ResponseDto<object>> Register(RegisterDto dto)
     {
         try
