@@ -11,13 +11,17 @@ using KafeApi.Application.Services.Abstract;
 using KafeApi.Application.Services.Concrete;
 using KafeApi.Persistence.Context;
 using KafeApi.Persistence.Context.Identity;
+using KafeApi.Persistence.Middlewares;
 using KafeApi.Persistence.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualBasic;
 using Scalar.AspNetCore;
 using Serilog;
+using Serilog.Sinks.MSSqlServer;
+using System.Collections.ObjectModel;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -111,6 +115,15 @@ builder.Services.AddAuthentication(opt =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
 
+var columnOptions = new Collection<StandardColumn>
+{
+    StandardColumn.Message,
+    StandardColumn.Level,
+    StandardColumn.Exception,
+    StandardColumn.TimeStamp
+};
+
+
 // Serilog yapýlandýrmasý baþlatýlýyor
 Log.Logger = new LoggerConfiguration()
 
@@ -121,8 +134,13 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     // Logger'ý oluþtur
     .CreateLogger();
+
+
+
 builder.Services.AddSingleton<Serilog.ILogger>(Log.Logger);
 builder.Host.UseSerilog();
+
+builder.Services.AddHttpContextAccessor();
 
 
 
@@ -142,8 +160,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<SerilogMiddleware>();
 
 app.MapControllers();
 
