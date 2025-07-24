@@ -34,7 +34,7 @@ public class TokenHelpers
 
             // Kullanıcının rolü (örnek olarak "admin" verdik, sabit yazılmış)
             new Claim("_u",dto.Id),
-            new Claim("_r",dto.Role),
+            new Claim("role",dto.Role ?? ""),
 
             // Token'a benzersiz bir ID atanıyor (güvenlik amacıyla)
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
