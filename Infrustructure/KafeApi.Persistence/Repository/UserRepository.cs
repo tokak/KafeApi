@@ -10,9 +10,25 @@ public class UserRepository : IUserRepository
     private readonly UserManager<AppIdentityUser> _userManager;
     private readonly SignInManager<AppIdentityUser> _signInManager;
 
-    public UserRepository(UserManager<AppIdentityUser> userManager)
+    public UserRepository(UserManager<AppIdentityUser> userManager, SignInManager<AppIdentityUser> signInManager)
     {
         _userManager = userManager;
+        _signInManager = signInManager;
+    }
+
+    public async Task<UserDto> CheckUser(string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user != null)
+            return new UserDto() { Id=user.Id,Email=user.Email};
+        return new UserDto();
+    }
+
+    public async Task<SignInResult> CheckUserWithPassword(LoginDto dto)
+    {
+        var user = await _userManager.FindByEmailAsync(dto.Email);
+        var result = await _signInManager.PasswordSignInAsync(user,dto.Password,false,false);
+        return result;
     }
 
     public async Task<SignInResult> LoginAsync(LoginDto dto)
