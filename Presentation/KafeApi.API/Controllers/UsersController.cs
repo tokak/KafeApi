@@ -1,11 +1,12 @@
 ﻿using KafeApi.Application.Dtos.UserDtos;
 using KafeApi.Application.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KafeApi.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     public class UsersController : BaseController
     {
@@ -15,19 +16,22 @@ namespace KafeApi.API.Controllers
         {
             _userService = userService;
         }
-        [HttpPost("register")]
+        [Authorize(Roles = "Admin")]
+        [HttpPost()]
         public async Task<IActionResult> Register(RegisterDto dto)
         {
             var result = await _userService.Register(dto);
             return CreateResponse(result);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost("createrole")]
         public async Task<IActionResult> CreateRole(string roleName)
         {
             var result = await _userService.CreateRole(roleName);
             return CreateResponse(result);
         }
-        [HttpPost("addroletouser")]
+        [Authorize(Roles = "Admin")]
+        [HttpPost("addrole")]
         public async Task<IActionResult> AddRoleToUser(string email,string roleName)
         {
             var result = await _userService.AddToRole(email,roleName);

@@ -1,10 +1,11 @@
 ﻿using KafeApi.Application.Dtos.MenuItemDtos;
 using KafeApi.Application.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KafeApi.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/menuitems")]
     [ApiController]
     public class MenuItemsController : BaseController
     {
@@ -36,19 +37,21 @@ namespace KafeApi.API.Controllers
             var result = await _menuItemServices.GetByIdMenuItem(id);
             return CreateResponse(result);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddMenuItem(CreateMenuItemDto dto)
         {
             var result = await _menuItemServices.AddMenuItem(dto);
             return CreateResponse(result);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> UpdateMenuItem(UpdateMenuItemDto dto)
         {
             var result = await _menuItemServices.UpdateMenuItem(dto);
             return CreateResponse(result);
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public async Task<IActionResult> DeleteMenuItem(int id)
         {

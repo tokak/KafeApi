@@ -36,7 +36,7 @@ public class AuthServices : IAuthServices
                         Role = userCheck.Role
                     };
                     string token = _tokenHelpers.GenerateToken(tokendto);
-                    return new ResponseDto<object> { Success = true, Data = token, Message = "işlem başarılı" };
+                    return new ResponseDto<object> { Success = true, Data = new {Token=token}, Message = "işlem başarılı" };
                 }
             }
 
