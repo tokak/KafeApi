@@ -1,5 +1,4 @@
 ﻿using KafeApi.Application.Dtos.CategoryDtos;
-using KafeApi.Application.Dtos.ResponseDtos;
 using KafeApi.Application.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,13 +10,16 @@ namespace KafeApi.API.Controllers;
 public class CategoriesController : BaseController
 {
     private readonly ICategoryServices _categoryServices;
-    public CategoriesController(ICategoryServices categoryServices)
+    private readonly Serilog.ILogger _logger;
+    public CategoriesController(ICategoryServices categoryServices, Serilog.ILogger logger)
     {
         _categoryServices = categoryServices;
+        _logger = logger;
     }
     [HttpGet]
     public async Task<IActionResult> GetAllCategories()
     {
+        _logger.Information("get-categories");
         var result = await _categoryServices.GetAllCategories();
         //if (!result.Success)
         //{
@@ -28,6 +30,11 @@ public class CategoriesController : BaseController
         //    return BadRequest(result);
         //}
         //return Ok(result);
+        _logger.Information("get-categories: " + result.Success);
+        _logger.Warning("get-categories: " + result.Success);
+        _logger.Error("get-categories: " + result.Success);
+        _logger.Debug("get-categories: " + result.Success);
+
         return CreateResponse(result);
     }
     [HttpGet("{id}")]

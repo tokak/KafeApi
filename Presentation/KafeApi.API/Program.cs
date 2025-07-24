@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
+using Serilog;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -109,6 +110,22 @@ builder.Services.AddAuthentication(opt =>
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
+
+// Serilog yapýlandýrmasý baþlatýlýyor
+Log.Logger = new LoggerConfiguration()
+
+    // appsettings.json dosyasýndaki "Serilog" bölümünden ayarlarý okur
+    .ReadFrom.Configuration(builder.Configuration)
+
+    // LogContext içindeki bilgileri loglara dahil eder (örneðin kullanýcý adý, request ID vs.)
+    .Enrich.FromLogContext()
+    // Logger'ý oluþtur
+    .CreateLogger();
+builder.Services.AddSingleton<Serilog.ILogger>(Log.Logger);
+builder.Host.UseSerilog();
+
+
+
 var app = builder.Build();
 app.MapScalarApiReference(
     opt =>
