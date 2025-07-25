@@ -38,7 +38,7 @@ public class CategoriesController : BaseController
         return CreateResponse(result);
     }
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetByIdCategory(int id)
+    public async Task<IActionResult> GetByIdCategory([FromRoute]int id)
     {
         var result = await _categoryServices.GetByIdCategory(id);
         return CreateResponse(result); ;

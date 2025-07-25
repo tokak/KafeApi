@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using FluentValidation;
 using KafeApi.Application.Dtos.CategoryDtos;
 using KafeApi.Application.Dtos.MenuItemDtos;
@@ -22,6 +23,7 @@ using Scalar.AspNetCore;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -143,6 +145,22 @@ builder.Host.UseSerilog();
 builder.Services.AddHttpContextAccessor();
 
 
+// Rate limiting iþlemleri için bellek tabanlý cache kullanýlýr.
+// Ýstek sayýlarý ve süreleri bellekte tutulur.
+builder.Services.AddMemoryCache();
+
+// appsettings.json içindeki "IpRateLimiting" konfigürasyonunun okunup kullanýlmasýný saðlar.
+builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+
+// Rate limiting yapýlandýrmasýnýn nasýl çalýþacaðýný belirten konfigürasyon sýnýfý singleton olarak eklenir.
+// Bu, rate limit kurallarýnýn yüklenmesini ve uygulanmasýný saðlar.
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
+// Rate limit verileri (IP ve istek sayýsý gibi) bellek içinde saklanacak þekilde servis eklenir.
+// Daðýtýk mimaride kullanýlýyorsa Redis veya baþka bir cache provider tercih edilebilir.
+builder.Services.AddInMemoryRateLimiting();
+
+
 
 var app = builder.Build();
 app.MapScalarApiReference(
@@ -158,6 +176,9 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+app.UseIpRateLimiting();
+
+
 
 app.UseHttpsRedirection();
 
