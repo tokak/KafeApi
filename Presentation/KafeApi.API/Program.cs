@@ -1,5 +1,6 @@
 using AspNetCoreRateLimit;
 using FluentValidation;
+using KafeApi.Application.Dtos.CafeInfoDtos;
 using KafeApi.Application.Dtos.CategoryDtos;
 using KafeApi.Application.Dtos.MenuItemDtos;
 using KafeApi.Application.Dtos.OrderDtos;
@@ -67,6 +68,7 @@ builder.Services.AddScoped<IOrderItemServices, OrderItemServices>();
 builder.Services.AddScoped<IOrderServices, OrderServices>();
 builder.Services.AddScoped<IAuthServices, AuthServices>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICafeInfoServices, CafeInfoService>();
 
 builder.Services.AddScoped<TokenHelpers>();
 
@@ -88,6 +90,10 @@ builder.Services.AddValidatorsFromAssemblyContaining<UpdateOrderItemDto>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateOrderDto>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateOrderDto>();
+
+
+builder.Services.AddValidatorsFromAssemblyContaining<CreateCafeInfoDto>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateCafeInfoDto>();
 
 
 
