@@ -39,7 +39,7 @@ namespace KafeApi.API.Controllers
             var result = await _cafeInfoServices.GetByIdCafeInfo(id);
             return CreateResponse(result); ;
         }
-        [Authorize(Roles = "Admin")]
+   
         [HttpPost]
         public async Task<IActionResult> AddCafeInfo(CreateCafeInfoDto dto)
         {

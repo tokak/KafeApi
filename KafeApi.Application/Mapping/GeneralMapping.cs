@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using KafeApi.Application.Dtos.CafeInfoDtos;
 using KafeApi.Application.Dtos.CategoryDtos;
 using KafeApi.Application.Dtos.MenuItemDtos;
 using KafeApi.Application.Dtos.OrderDtos;
 using KafeApi.Application.Dtos.OrderItemDtos;
+using KafeApi.Application.Dtos.ReviewDtos;
 using KafeApi.Application.Dtos.TableDtos;
 using KafeApi.Application.Dtos.UserDtos;
 using KafeApi.Domain.Entities;
@@ -39,6 +41,18 @@ public class GeneralMapping : Profile
         CreateMap<Order, ResulOrderDto>().ReverseMap();
         CreateMap<Order, UpdateOrderDto>().ReverseMap();
         CreateMap<Order, DetailOrderDto>().ReverseMap();
+
+
+        CreateMap<CafeInfo, CreateCafeInfoDto>().ReverseMap();
+        CreateMap<CafeInfo, ResultCafeInfoDto>().ReverseMap();
+        CreateMap<CafeInfo, UpdateCafeInfoDto>().ReverseMap();
+        CreateMap<CafeInfo, DetailCafeInfoDto>().ReverseMap();
+
+
+        CreateMap<Review, CreateReviewDto>().ReverseMap();
+        CreateMap<Review, ResultReviewDto>().ReverseMap();
+        CreateMap<Review, UpdateReviewDto>().ReverseMap();
+        CreateMap<Review, DetailReviewDto>().ReverseMap();
 
         //CreateMap< RegisterDto>().ReverseMap();
 

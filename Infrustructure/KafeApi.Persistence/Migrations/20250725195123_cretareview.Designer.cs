@@ -4,6 +4,7 @@ using KafeApi.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KafeApi.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250725195123_cretareview")]
+    partial class cretareview
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,6 +204,9 @@ namespace KafeApi.Persistence.Migrations
                     b.Property<int>("CafeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CafeInfoId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -216,6 +222,8 @@ namespace KafeApi.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CafeInfoId");
 
                     b.ToTable("Reviews");
                 });
@@ -268,6 +276,17 @@ namespace KafeApi.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("MenuItem");
+                });
+
+            modelBuilder.Entity("KafeApi.Domain.Entities.Review", b =>
+                {
+                    b.HasOne("KafeApi.Domain.Entities.CafeInfo", "CafeInfo")
+                        .WithMany()
+                        .HasForeignKey("CafeInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CafeInfo");
                 });
 
             modelBuilder.Entity("KafeApi.Domain.Entities.Category", b =>

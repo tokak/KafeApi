@@ -14,4 +14,6 @@ public class CafeInfo
     public string TwitterUrl { get; set; }
     public string OpeningHours { get; set; }
     public string ImageUrl { get; set; }
+    // One-to-Many ilişki: Bir cafe birçok yoruma sahip olabilir
+    //public ICollection<Review> Reviews { get; set; } = new List<Review>();
 }

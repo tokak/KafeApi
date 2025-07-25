@@ -5,6 +5,7 @@ using KafeApi.Application.Dtos.CategoryDtos;
 using KafeApi.Application.Dtos.MenuItemDtos;
 using KafeApi.Application.Dtos.OrderDtos;
 using KafeApi.Application.Dtos.OrderItemDtos;
+using KafeApi.Application.Dtos.ReviewDtos;
 using KafeApi.Application.Dtos.TableDtos;
 using KafeApi.Application.Helpers;
 using KafeApi.Application.Interfaces;
@@ -69,6 +70,7 @@ builder.Services.AddScoped<IOrderServices, OrderServices>();
 builder.Services.AddScoped<IAuthServices, AuthServices>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICafeInfoServices, CafeInfoService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 
 builder.Services.AddScoped<TokenHelpers>();
 
@@ -94,6 +96,9 @@ builder.Services.AddValidatorsFromAssemblyContaining<UpdateOrderDto>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateCafeInfoDto>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateCafeInfoDto>();
+
+builder.Services.AddValidatorsFromAssemblyContaining<CreateReviewDto>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateReviewDto>();
 
 
 
