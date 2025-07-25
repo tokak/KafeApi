@@ -3,6 +3,7 @@ using KafeApi.Application.Dtos.ResponseDtos;
 using KafeApi.Application.Dtos.UserDtos;
 using KafeApi.Application.Interfaces;
 using KafeApi.Application.Services.Abstract;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KafeApi.Application.Services.Concrete;
 
@@ -73,6 +74,37 @@ public class UserService : IUserService
         catch (Exception ex)
         {
             return new ResponseDto<object> { Success = false, Data = null, Message = ex.Message ,ErrorCode=ErrorCodes.Exception};
+        }
+    }
+   
+    public async Task<ResponseDto<object>> RegisterDefault(RegisterDto dto)
+    {
+        try
+        {
+            var validate = await _registerValidator.ValidateAsync(dto);
+            if (!validate.IsValid)
+            {
+                return new ResponseDto<object> { Success = false, Data = null, ErrorCode = ErrorCodes.NotFound, Message = "Kullanıcı bulunamadı." };
+            }
+            var result = await _userRepository.RegisterAsync(dto);
+            if (result.Succeeded)
+            {
+                var roleResult = await _userRepository.AddRoleToUserAsync(dto.Email, "User");
+                if (roleResult)
+                {
+                    return new ResponseDto<object> { Success = true, Data = dto, Message = "işlem başarılı." };
+                }
+                else
+                {
+                    return new ResponseDto<object> { Success = false, Data = null, Message = "Kullanıcı oluşturuldu rol ataması yapılırken hata oluştu.",ErrorCode = ErrorCodes.BadRequest };
+
+                }
+            }
+            return new ResponseDto<object> { Success = false, Data = null, Message = result.Errors.FirstOrDefault().Description };
+        }
+        catch (Exception ex)
+        {
+            return new ResponseDto<object> { Success = false, Data = null, Message = ex.Message, ErrorCode = ErrorCodes.Exception };
         }
     }
 }
