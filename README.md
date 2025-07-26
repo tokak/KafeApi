@@ -15,16 +15,16 @@ Bu proje, .NET Core 9 kullanılarak geliştirilmiş, gerçek dünya senaryoları
 ## Kullanılan Teknolojiler ve Katmanlar
 
 Katman | Açıklama 
-**ASP.NET Core 9 Web API** | Ana API projesi |
-**Entity Framework Core** | Veritabanı işlemleri |
-**Onion Architecture** | Temiz, sürdürülebilir mimari |
-**FluentValidation** | Model doğrulama |
-**AutoMapper** | DTO ↔ Entity dönüşümleri |
-**Serilog** | Loglama işlemleri |
-**JWT Authentication** | Token bazlı kimlik doğrulama |
-**ASP.NET Identity** | Kullanıcı yönetimi |
-**Rate Limiting** | API güvenliği için istek sınırlama |
-**Postman / Scalar** | API dökümantasyonu ve test arayüzü |
+- **ASP.NET Core 9 Web API** | Ana API projesi |
+- **Entity Framework Core** | Veritabanı işlemleri |
+- **Onion Architecture** | Temiz, sürdürülebilir mimari |
+- **FluentValidation** | Model doğrulama |
+- **AutoMapper** | DTO ↔ Entity dönüşümleri |
+- **Serilog** | Loglama işlemleri |
+- **JWT Authentication** | Token bazlı kimlik doğrulama |
+- **ASP.NET Identity** | Kullanıcı yönetimi |
+- **Rate Limiting** | API güvenliği için istek sınırlama |
+- **Postman / Scalar** | API dökümantasyonu ve test arayüzü |
 
 ---
 
@@ -63,7 +63,7 @@ update-database işlemi yazın
 <img width="1920" height="902" alt="image" src="https://github.com/user-attachments/assets/ba15c281-f699-4db1-b435-5985b7da7c03" />
 <img width="1920" height="875" alt="image" src="https://github.com/user-attachments/assets/c3c6e76e-5277-45ae-93a0-f71d73b3f026" />
 <img width="1920" height="872" alt="image" src="https://github.com/user-attachments/assets/5d2b198d-3e75-4b95-be40-8b40d9a56596" />
-
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/89757746-3c50-4fce-a2dc-0374ac71bb56" />
 
 
 
