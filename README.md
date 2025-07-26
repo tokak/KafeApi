@@ -1,14 +1,14 @@
-# Kafe API - .NET Core 9 ile Gerçek Dünya API Geliştirme
+# Kafe API - .NET Core 9 ile  API Geliştirme
 
 Bu proje, .NET Core 9 kullanılarak geliştirilmiş, gerçek dünya senaryolarına uygun bir **Restful API mimarisi** içermektedir. Katmanlı mimari, güvenlik, validation, mapping, logging gibi modern yazılım geliştirme pratiklerini barındırır.
 
 ---
 
-## imler Fayda Sağlayabilir?
+## Kimler Fayda Sağlayabilir?
 
 - .NET Core ile API geliştirmek isteyenler  
 -  Gerçek projelerle kendini geliştirmek isteyen yazılımcılar  
--  Kafe, restoran, menü sistemini kendi geliştirmek isteyen 
+-  Kafe, restoran, menü sistemini kendi geliştirmek isteyenlere 
 
 ---
 
