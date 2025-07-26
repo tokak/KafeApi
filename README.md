@@ -16,16 +16,16 @@ Bu proje, .NET Core 9 kullanılarak geliştirilmiş, gerçek dünya senaryoları
 
 Katman | Açıklama 
 
-- **ASP.NET Core 9 Web API** | Ana API projesi |
-- **Entity Framework Core** | Veritabanı işlemleri |
-- **Onion Architecture** | Temiz, sürdürülebilir mimari |
-- **FluentValidation** | Model doğrulama |
-- **AutoMapper** | DTO ↔ Entity dönüşümleri |
-- **Serilog** | Loglama işlemleri |
-- **JWT Authentication** | Token bazlı kimlik doğrulama |
-- **ASP.NET Identity** | Kullanıcı yönetimi |
-- **Rate Limiting** | API güvenliği için istek sınırlama |
-- **Postman / Scalar** | API dökümantasyonu ve test arayüzü |
+- ASP.NET Core 9 Web API | Ana API projesi |
+- Entity Framework Core | Veritabanı işlemleri |
+- Onion Architecture | Temiz, sürdürülebilir mimari |
+- FluentValidation | Model doğrulama |
+- AutoMapper | DTO ↔ Entity dönüşümleri |
+- Serilog | Loglama işlemleri |
+- JWT Authentication | Token bazlı kimlik doğrulama |
+- ASP.NET Identity | Kullanıcı yönetimi |
+- Rate Limiting** | API güvenliği için istek sınırlama |
+- Postman / Scalar | API dökümantasyonu ve test arayüzü |
 
 ---
 
