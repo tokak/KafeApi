@@ -45,11 +45,11 @@ Katman | Açıklama
 
 ##  Proje Yapısı
 KafeApi
--KafeApi.Application/ # İş mantığı ve servisler
--KafeApi.Domain/ # Entity'ler ve arayüzler
--KafeApi.Infrastructure/ # EF Core, veri erişim katmanı
--KafeApi.Persistence/ # DbContext, veritabanı bağlantısı
--KafeApi.WebAPI/ # Controller ve API giriş noktası
+- KafeApi.Application/ # İş mantığı ve servisler
+- KafeApi.Domain/ # Entity'ler ve arayüzler
+- KafeApi.Infrastructure/ # EF Core, veri erişim katmanı
+- KafeApi.Persistence/ # DbContext, veritabanı bağlantısı
+- KafeApi.WebAPI/ # Controller ve API giriş noktası
 
 ## Kurulum
 "ConnectionStrings": {
