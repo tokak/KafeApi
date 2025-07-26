@@ -15,6 +15,7 @@ Bu proje, .NET Core 9 kullanılarak geliştirilmiş, gerçek dünya senaryoları
 ## Kullanılan Teknolojiler ve Katmanlar
 
 Katman | Açıklama 
+
 - **ASP.NET Core 9 Web API** | Ana API projesi |
 - **Entity Framework Core** | Veritabanı işlemleri |
 - **Onion Architecture** | Temiz, sürdürülebilir mimari |
